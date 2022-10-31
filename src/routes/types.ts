@@ -24,7 +24,7 @@ export const makeIngredients = (obj: {
 	microfoam?: number;
 	hotWater?: number;
 }): Ingredients => {
-	return [obj.espresso ?? 0, obj.steamedMilk ?? 0, obj.microfoam ?? 0, obj.hotWater ?? 0];
+	return [obj.espresso ?? 0, obj.microfoam ?? 0, obj.hotWater ?? 0, obj.steamedMilk ?? 0];
 };
 
 export const normalizeIngredients = (ingredients: Ingredients): Ingredients => {
