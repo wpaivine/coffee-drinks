@@ -44,7 +44,7 @@
 </script>
 
 <div class="min-w-max w-1/2 m-auto">
-	<div class="grid grid-cols-5 gap-1 w-auto m-auto">
+	<div class="grid grid-cols-5 gap-1 w-auto m-auto bg-brown-200 rounded-md py-3 px-1 drop-shadow-md">
 		<div class="select-none col-span-2">
 			<span class="float-right font-body text-brown-900 text-2xl px-1"> drink size </span>
 		</div>
