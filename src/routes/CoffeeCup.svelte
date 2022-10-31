@@ -18,7 +18,6 @@
 	}
 </script>
 
-<span> {color} {$fluidSize}</span>
 <div
 	class="cup flex items-end drop-shadow-xl border-brown-900 bg-brown-100 border-b-8 border-l-8 border-r-8 justify-center space-x-8"
 	style="height: {maxSide * 1.1}rem"
