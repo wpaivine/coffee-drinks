@@ -6,16 +6,16 @@ export interface Recipe {
 
 export type Ingredients = [
 	espresso: number,
-	steamedMilk: number,
 	microfoam: number,
-	hotWater: number
+	hotWater: number,
+	steamedMilk: number,
 ];
 
 export const ingredientNames = [
 	{ name: 'espresso', c: 0, m: 40, y: 65, k: 82, alpha: 100 },
-	{ name: 'steamed milk', c: 3, m: 4, y: 8, k: 2, alpha: 30 },
 	{ name: 'microfoam', c: 2, m: 2, y: 2, k: 0, alpha: 20 },
-	{ name: 'hot water', c: 10, m: 0, y: 0, k: 0, alpha: 1 }
+	{ name: 'hot water', c: 10, m: 0, y: 0, k: 0, alpha: 1 },
+	{ name: 'steamed milk', c: 3, m: 4, y: 8, k: 2, alpha: 30 },
 ];
 
 export const makeIngredients = (obj: {
