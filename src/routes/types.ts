@@ -1,5 +1,6 @@
 export interface Recipe {
 	name: string;
+	display: boolean;
 	ingredients: Ingredients;
 }
 
@@ -33,9 +34,10 @@ export const normalizeIngredients = (ingredients: Ingredients): Ingredients => {
 
 export const makeRecipe = (
 	name: string,
-	obj: { espresso?: number; steamedMilk?: number; microfoam?: number; hotWater?: number }
+	obj: { espresso?: number; steamedMilk?: number; microfoam?: number; hotWater?: number },
+	display: boolean = true
 ): Recipe => {
-	return { name: name, ingredients: makeIngredients(obj) };
+	return { name: name, display: display, ingredients: makeIngredients(obj) };
 };
 
 export const recipes = [
@@ -48,29 +50,31 @@ export const recipes = [
 	makeRecipe('latte', { espresso: 32, steamedMilk: 170, microfoam: 40 }),
 	makeRecipe('flat white', { espresso: 32, steamedMilk: 200, microfoam: 10 }),
 	makeRecipe('americano', { espresso: 32, hotWater: 200 }),
-	makeRecipe('steamer', { steamedMilk: 240 })
+	makeRecipe('steamer', { steamedMilk: 240 }),
+	makeRecipe('steamer', { steamedMilk: 120, microfoam: 120 }, false),
+	makeRecipe('steamer', { microfoam: 240 }, false)
 ];
 
-export const calculateClosestDrink = (
-	currentIngredients: Ingredients,
-	currentScalar: number
-): Recipe => {
+export const calculateClosestDrink = (currentIngredients: Ingredients) => {
 	const dists = recipes.map((recipe, i) => {
-		return { dist: recipeDistance(recipe.ingredients, currentIngredients, currentScalar), idx: i };
+		return { dist: recipeDistance(recipe.ingredients, currentIngredients), idx: i };
 	});
 	const min = dists.reduce((prev, cur, _) => (cur.dist < prev.dist ? cur : prev));
-	return recipes[min.idx];
+	return { name: recipes[min.idx].name, distance: min.dist };
 };
 
-export const recipeDistance = (
-	recipe: Ingredients,
-	ingredients: Ingredients,
-	currentScalar: number
-) => {
-	const squaredDistance = recipe
-		.map((value, index) => Math.pow(value - ingredients[index] * currentScalar, 2))
-		.reduce((prev, cur, _) => prev + cur);
-	return Math.sqrt(squaredDistance);
+export const recipeDistance = (recipe: Ingredients, ingredients: Ingredients) => {
+	const normalizedRecipe = normalizeIngredients(recipe);
+	const normalizedIngredients = normalizeIngredients(ingredients);
+	const distance = Math.sqrt(
+		normalizedRecipe
+			.map((value, index) => Math.pow(value - normalizedIngredients[index], 2))
+			.reduce((prev, cur, _) => prev + cur)
+	);
+	const volumeDistance = Math.abs(
+		recipe.reduce((a, b) => a + b) - ingredients.reduce((a, b) => a + b)
+	);
+	return distance + Math.pow(volumeDistance, 0.8);
 };
 
 export const calculateColor = (ingredients: Ingredients): string => {
@@ -78,7 +82,6 @@ export const calculateColor = (ingredients: Ingredients): string => {
 	const alphaSum = amountsToUse
 		.map((amount, idx) => (amount * ingredientNames[idx].alpha) / 100)
 		.reduce((a, b) => a + b);
-	console.log(alphaSum);
 	const c =
 		amountsToUse
 			.map(
