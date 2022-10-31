@@ -46,7 +46,7 @@
 <div class="min-w-max w-1/2 m-auto">
 	<div class="grid grid-cols-5 gap-1 w-auto m-auto bg-brown-200 rounded-md py-3 px-1 drop-shadow-md">
 		<div class="select-none col-span-2">
-			<span class="float-right font-body text-brown-900 text-2xl px-1"> drink size </span>
+			<span class="float-right font-body text-brown-900 text-xl px-1"> drink size </span>
 		</div>
 		<div class="col-span-2 ">
 			<input
@@ -59,13 +59,13 @@
 			/>
 		</div>
 		<div>
-			<span class="float-left px-4 font-body text-brown-900 text-2xl ">
+			<span class="float-left px-4 font-body text-brown-900 text-l">
 				{drinkMass}g
 			</span>
 		</div>
 		{#each ingredientNames as coffeeIngredient, idx}
 			<div class="select-none col-span-2">
-				<span class="float-right font-body text-brown-900 text-2xl select-none px-1">
+				<span class="float-right font-body text-brown-900 text-xl select-none px-1">
 					{coffeeIngredient.name}
 				</span>
 			</div>
@@ -79,7 +79,7 @@
 				/>
 			</div>
 			<div class="select-none">
-				<span class="float-left px-4 font-body text-brown-900 text-2xl select-none">
+				<span class="float-left px-4 font-body text-brown-900 text-l select-none">
 					{Math.round(currentIngredients[idx])}g
 				</span>
 			</div>
@@ -88,7 +88,7 @@
 
 	<div class="grid place-items-center gap-5 py-10">
 		<CoffeeCup color={calculateColor(currentIngredients)} size={drinkMass} />
-		<span class="content-center font-body text-5xl text-brown-500">
+		<span class="content-center font-body text-4xl text-brown-500">
 			{#if closestDrink.distance < threshold}
 				{closestDrink.name}
 			{:else}
@@ -108,7 +108,7 @@
 							setIngredientsFromRecipe(recipe);
 						}}
 					>
-						<span class="font-body text-xl text-brown-300 cursor-default select-none"
+						<span class="font-body text-l text-brown-300 cursor-default select-none"
 							>{recipe.name}</span
 						>
 					</div>
