@@ -28,7 +28,14 @@
 	}
 
 	function setIngredientsFromRecipe(recipe: Recipe) {
-		drinkMass = recipe.ingredients.reduce((a, b) => a + b);
+		const newMass = recipe.ingredients.reduce((a, b) => a + b);
+
+		if (newMass == drinkMass) {
+			drinkMass += 10;
+			setTimeout(() => (drinkMass = newMass), 100);
+		} else {
+			drinkMass = newMass;
+		}
 
 		const newSliderValues = normalizeIngredients(recipe.ingredients);
 		newSliderValues.forEach((sliderValue, idx) => {

@@ -5,7 +5,7 @@
 
 	import { spring } from 'svelte/motion';
 
-	const maxSize = 240;
+	const maxSize = 250;
 
 	const maxSide = volumeToSize(maxSize);
 
