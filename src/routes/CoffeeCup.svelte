@@ -2,6 +2,7 @@
 	export let color = '#625241';
 	export let size = 36;
 	export const scale = 20;
+	export let bonk = false;
 
 	import { spring } from 'svelte/motion';
 
@@ -12,6 +13,13 @@
 	const fluidSize = spring(maxSide, { stiffness: 0.1, damping: 1 });
 
 	$: fluidSize.set(volumeToSize(size));
+
+	$: if (bonk) {
+		const oldSize = size;
+		size += 10;
+		setTimeout(() => (size = oldSize), 100);
+		bonk = false;
+	}
 
 	function volumeToSize(size: number) {
 		return Math.pow(Math.min(size, maxSize) * scale, 1 / 3);

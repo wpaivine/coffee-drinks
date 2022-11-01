@@ -18,6 +18,8 @@
 
 	let sliderValues = normalizeIngredients(recipes[0].ingredients);
 
+	let bonk = false;
+
 	$: sliderSum = sliderValues.reduce((a, b) => a + b);
 	$: currentIngredients = sliderValues.map((e) => (e / sliderSum) * drinkMass) as Ingredients;
 
@@ -31,8 +33,7 @@
 		const newMass = recipe.ingredients.reduce((a, b) => a + b);
 
 		if (newMass == drinkMass) {
-			drinkMass += 10;
-			setTimeout(() => (drinkMass = newMass), 100);
+			bonk = true;
 		} else {
 			drinkMass = newMass;
 		}
@@ -90,7 +91,7 @@
 	</div>
 
 	<div class="grid place-items-center gap-5 py-10">
-		<CoffeeCup color={calculateColor(currentIngredients)} size={drinkMass} />
+		<CoffeeCup color={calculateColor(currentIngredients)} size={drinkMass} bind:bonk />
 		<span class="content-center font-body text-4xl text-brown-500">
 			{#if closestDrink.distance < threshold}
 				{closestDrink.name}
