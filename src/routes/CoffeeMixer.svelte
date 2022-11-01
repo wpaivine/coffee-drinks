@@ -24,6 +24,10 @@
 
 	$: closestDrink = calculateClosestDrink(currentIngredients);
 
+	$: if (sliderValues.every((v) => v == 0)) {
+		sliderValues[0] = 1;
+	}
+
 	function setIngredientsFromRecipe(recipe: Recipe) {
 		drinkMass = recipe.ingredients.reduce((a, b) => a + b);
 
@@ -44,7 +48,9 @@
 </script>
 
 <div class="min-w-max w-1/2 m-auto">
-	<div class="grid grid-cols-5 gap-1 w-auto m-auto bg-brown-200 rounded-md py-3 px-1 drop-shadow-md">
+	<div
+		class="grid grid-cols-5 gap-1 w-auto m-auto bg-brown-200 rounded-md py-3 px-1 drop-shadow-md"
+	>
 		<div class="select-none col-span-2">
 			<span class="float-right font-body text-brown-900 text-xl px-1"> drink size </span>
 		</div>
@@ -53,7 +59,7 @@
 				class="float-left rounded-xl overflow-hidden appearance-none bg-brown-600 w-full drop-shadow-md"
 				type="range"
 				bind:value={drinkMass}
-				min="5"
+				min="15"
 				max="240"
 				step="5"
 			/>
