@@ -1,14 +1,9 @@
 <script lang="ts">
+	import { calculateClosestDrink, calculateColor, normalizeIngredients } from './coffee';
 	import CoffeeCup from './CoffeeCup.svelte';
-	import {
-		calculateClosestDrink,
-		calculateColor,
-		ingredientNames,
-		normalizeIngredients,
-		recipes,
-		type Recipe,
-		type Ingredients
-	} from './types';
+	import { ingredientNames } from './ingredients';
+	import { recipes } from './recipes';
+	import type { Recipe, Ingredients } from './types';
 
 	const threshold = 10;
 
@@ -23,13 +18,13 @@
 	$: sliderSum = sliderValues.reduce((a, b) => a + b);
 	$: currentIngredients = sliderValues.map((e) => (e / sliderSum) * drinkMass) as Ingredients;
 
-	$: closestDrink = calculateClosestDrink(currentIngredients);
+	$: closestDrink = calculateClosestDrink(recipes, currentIngredients);
 
 	$: if (sliderValues.every((v) => v == 0)) {
 		sliderValues[0] = 1;
 	}
 
-	function setIngredientsFromRecipe(recipe: Recipe) {
+	const setIngredientsFromRecipe = (recipe: Recipe) => {
 		const newMass = recipe.ingredients.reduce((a, b) => a + b);
 
 		if (newMass == drinkMass) {
@@ -42,7 +37,7 @@
 		newSliderValues.forEach((sliderValue, idx) => {
 			sliderValues[idx] = sliderValue;
 		});
-	}
+	};
 </script>
 
 <div class="min-w-max w-1/2 m-auto">

@@ -8,6 +8,9 @@
 
 	const maxSize = 250;
 
+	const volumeToSize = (size: number) => {
+		return Math.pow(Math.min(size, maxSize) * scale, 1 / 3);
+	};
 	const maxSide = volumeToSize(maxSize);
 
 	const fluidSize = spring(maxSide, { stiffness: 0.1, damping: 1 });
@@ -19,10 +22,6 @@
 		size += 10;
 		setTimeout(() => (size = oldSize), 100);
 		bonk = false;
-	}
-
-	function volumeToSize(size: number) {
-		return Math.pow(Math.min(size, maxSize) * scale, 1 / 3);
 	}
 </script>
 
