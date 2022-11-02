@@ -2,6 +2,7 @@
 	import { calculateClosestDrink, calculateColor, normalizeIngredients } from './coffee';
 	import CoffeeCup from './CoffeeCup.svelte';
 	import { ingredientNames } from './ingredients';
+	import RecipePicker from './RecipePicker.svelte';
 	import { recipes } from './recipes';
 	import type { Recipe, Ingredients } from './types';
 
@@ -24,7 +25,8 @@
 		sliderValues[0] = 1;
 	}
 
-	const setIngredientsFromRecipe = (recipe: Recipe) => {
+	function setIngredientsFromRecipe(recipeMessage: CustomEvent) {
+		const recipe = recipeMessage.detail as Recipe;
 		const newMass = recipe.ingredients.reduce((a, b) => a + b);
 
 		if (newMass == drinkMass) {
@@ -37,7 +39,7 @@
 		newSliderValues.forEach((sliderValue, idx) => {
 			sliderValues[idx] = sliderValue;
 		});
-	};
+	}
 </script>
 
 <div class="min-w-max w-1/2 m-auto">
@@ -85,42 +87,16 @@
 		{/each}
 	</div>
 
-	<div class="grid place-items-center gap-5 py-10">
-		<CoffeeCup color={calculateColor(currentIngredients)} size={drinkMass} bind:bonk />
-		<span class="content-center font-body text-4xl text-brown-500">
-			{#if closestDrink.distance < threshold}
-				{closestDrink.name}
-			{:else}
-				a hot drink
-			{/if}
-		</span>
-		<div class="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-3">
-			{#each recipes as recipe}
-				{#if recipe.display}
-					<div
-						class:active={recipe.name == closestDrink.name && closestDrink.distance < threshold}
-						class="bg-brown-900 rounded-xl p-4 hover:bg-brown-700 drop-shadow-md"
-						on:click={() => {
-							setIngredientsFromRecipe(recipe);
-						}}
-						on:keydown={() => {
-							setIngredientsFromRecipe(recipe);
-						}}
-					>
-						<span class="font-body text-l text-brown-300 cursor-default select-none"
-							>{recipe.name}</span
-						>
-					</div>
-				{/if}
-			{/each}
-		</div>
-	</div>
+	<RecipePicker
+		bind:closestDrink
+		bind:currentIngredients
+		bind:drinkMass
+		{threshold}
+		on:message={setIngredientsFromRecipe}
+	/>
 </div>
 
 <style>
-	.active {
-		background: #763331;
-	}
 	@media screen and (-webkit-min-device-pixel-ratio: 0) {
 		input[type='range']::-webkit-slider-thumb {
 			width: 1.5rem;
