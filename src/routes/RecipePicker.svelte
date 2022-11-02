@@ -35,9 +35,11 @@
 	<div class="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-3 ">
 		{#each recipes as recipe}
 			{#if recipe.display}
+				{@const selected = recipe.name == closestDrink.name && closestDrink.distance < threshold}
 				<div
-					class:bg-amber-900={recipe.name == closestDrink.name && closestDrink.distance < threshold}
-					class="bg-brown-900 rounded-xl p-4 hover:bg-brown-700 drop-shadow-md"
+					class:bg-amber-900={selected}
+					class:bg-brown-900={!selected}
+					class="rounded-xl p-4 hover:bg-brown-700 drop-shadow-md"
 					on:click={() => {
 						setIngredientsFromRecipe(recipe);
 					}}
@@ -46,7 +48,7 @@
 					}}
 				>
 					<span class="font-body text-l text-brown-300 cursor-default select-none"
-						>{recipe.name}</span
+						>{recipe.name}</span 
 					>
 				</div>
 			{/if}
